@@ -1,0 +1,10 @@
+services:
+  
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ["go", "run", "/app/cmd/app/main.go"]
