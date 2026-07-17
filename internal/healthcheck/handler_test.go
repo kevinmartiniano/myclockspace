@@ -4,19 +4,13 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/gin-gonic/gin"
 )
 
 func TestHandler(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-
+	request := httptest.NewRequest(http.MethodGet, "/healthcheck", nil)
 	responseWriter := httptest.NewRecorder()
-	context, _ := gin.CreateTestContext(responseWriter)
 
-	context.Request, _ = http.NewRequest(http.MethodGet, "/healthcheck", nil)
-
-	Index(context)
+	Index(responseWriter, request)
 
 	if responseWriter.Code != http.StatusOK {
 		t.Errorf("Expected status code %d, but got %d", http.StatusOK, responseWriter.Code)

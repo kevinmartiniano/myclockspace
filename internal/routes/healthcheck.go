@@ -1,10 +1,11 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
+
 	"myclockspace.kevinmartiniano.com/internal/healthcheck"
 )
 
-func HealthCheckRoutes(routes *gin.Engine) {
-	routes.GET("/healthcheck", healthcheck.Index)
+func HealthCheckRoutes() {
+	http.HandleFunc("/healthcheck", healthcheck.Index)
 }

@@ -21,14 +21,15 @@ prune:
 build:
 	docker compose build --no-cache
 
-fresh:
-	@down
-	@build
-	@up
+bash:
+	docker compose exec -it app sh
+
+fresh: down build up
+
+force-fresh: down prune build up
 
 test:
-	@path="$(filter-out $@,$(MAKECMDGOALS))"; \
-	docker compose exec -it app go test $$path]
+	docker compose exec -it app go test $(path)
 
 help:
 	@echo "Usage: make [target]"

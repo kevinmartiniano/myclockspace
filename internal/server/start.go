@@ -1,13 +1,10 @@
 package server
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func StartServer() {
-	ginDefault := gin.Default()
-
-	RegisterRoutes(ginDefault)
-
-	ginDefault.Run(":8080")
+	RegisterRoutes()
+	http.ListenAndServe(":8080", nil)
 }
