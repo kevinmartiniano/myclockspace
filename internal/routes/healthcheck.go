@@ -11,10 +11,12 @@ type Healthcheck struct {
 
 func NewHealthcheck() *Healthcheck {
 	return &Healthcheck{
-		Register: HealthCheckRoutes,
+		Register: func(router *app.Router) { routes(router) },
 	}
 }
 
-func HealthCheckRoutes(router *app.Router) {
-	router.Get("/healthcheck", healthcheck.Index)
+func routes(router *app.Router) {
+	handler := healthcheck.NewHealthcheckHandler()
+	
+	router.Get("/healthcheck", handler.Index)
 }

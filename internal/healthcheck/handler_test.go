@@ -10,7 +10,7 @@ func TestHandler(t *testing.T) {
 	request := httptest.NewRequest(http.MethodGet, "/healthcheck", nil)
 	responseWriter := httptest.NewRecorder()
 
-	Index(responseWriter, request)
+	NewHealthcheckHandler().Index(responseWriter, request)
 
 	if responseWriter.Code != http.StatusOK {
 		t.Errorf("Expected status code %d, but got %d", http.StatusOK, responseWriter.Code)
