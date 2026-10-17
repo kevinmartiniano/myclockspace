@@ -1,7 +1,12 @@
 package main
 
-import "myclockspace.kevinmartiniano.com/internal/server"
+import (
+	"myclockspace.kevinmartiniano.com/internal/app"
+	"myclockspace.kevinmartiniano.com/internal/server"
+)
 
 func main() {
-	server.StartServer()
+	router := app.NewRouter()
+
+	server.NewServer(router).Up()
 }

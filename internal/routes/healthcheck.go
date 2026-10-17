@@ -1,11 +1,22 @@
 package routes
 
 import (
-	"net/http"
-
+	"myclockspace.kevinmartiniano.com/internal/app"
 	"myclockspace.kevinmartiniano.com/internal/healthcheck"
 )
 
-func HealthCheckRoutes() {
-	http.HandleFunc("/healthcheck", healthcheck.Index)
+type Healthcheck struct {
+	Register func(*app.Router)
+}
+
+func NewHealthcheck() *Healthcheck {
+	return &Healthcheck{
+		Register: func(router *app.Router) { routes(router) },
+	}
+}
+
+func routes(router *app.Router) {
+	handler := healthcheck.NewHealthcheckHandler()
+	
+	router.Get("/healthcheck", handler.Index)
 }
