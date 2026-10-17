@@ -5,14 +5,26 @@ import (
 	"myclockspace.kevinmartiniano.com/internal/routes"
 )
 
-type Routes func(*app.Router)
-
-var register = []Routes{
-	func(r *app.Router) { routes.NewHealthcheck().Register(r) },
+type Routes struct {
+	register map[string]func(r *app.Router)
+	router   *app.Router
 }
 
-func RegisterRoutes(r *app.Router) {
-	for _, route := range register {
-		route(r)
+func NewRoutes(r *app.Router) *Routes {
+	return &Routes{
+		register: register(r),
+		router:   r,
+	}
+}
+
+func (r *Routes) RegisterRoutes() {
+	for _, route := range r.register {
+		route(r.router)
+	}
+}
+
+func register(r *app.Router) map[string]func(r *app.Router) {
+	return map[string]func(r *app.Router){
+		"healthcheck": func(r *app.Router) { routes.NewHealthcheck().Register(r) },
 	}
 }

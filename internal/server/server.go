@@ -17,8 +17,15 @@ func NewServer(r *app.Router) *Server {
 }
 
 func (s *Server) Up() {
-	RegisterRoutes(s.router)
+	s.routes()
+	s.listen()
+}
 
+func (s *Server) routes() {
+	NewRoutes(s.router).RegisterRoutes()
+}
+
+func (s *Server) listen() {
 	if err := http.ListenAndServe(":8080", s.router); err != nil {
 		panic(err)
 	}
