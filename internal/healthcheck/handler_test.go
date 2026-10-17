@@ -3,6 +3,7 @@ package healthcheck
 import (
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -17,9 +18,9 @@ func TestHandler(t *testing.T) {
 	}
 
 	expectedBody := `{"message":"Ok!"}`
-	actualBody := responseWriter.Body.String()
+	actualBody := strings.TrimSpace(responseWriter.Body.String())
 
 	if actualBody != expectedBody {
-		t.Errorf("Expected body %s, but got %s", expectedBody, actualBody)
+		t.Errorf("Expected body %s, but got %q", expectedBody, actualBody)
 	}
 }
